@@ -1,6 +1,7 @@
-# class Dictionary
-    # def self.print_words_based_on_ph_no(ph_no)
-    def print_words_based_on_ph_no(ph_no)
+    # This method takes 10 digits as a phone number and 
+    #generates words based on the conditions.
+
+    def print_words_based_on_phone_no(ph_no)
         if (ph_no.is_a?(Integer) && (ph_no.to_s.split("").include?("1") || ph_no.to_s.split("").include?("0")))
             puts "Phone number should be Number and should not include 0 and 1 digits"
         else
@@ -35,8 +36,7 @@
             puts result.to_s          
         end
     end
-# end
+
 
 ARGV[0] = ARGV[0].to_i
-print_words_based_on_ph_no(ARGV[0])
-# Dictionary.print_words_based_on_ph_no(ARGV[0])
+print_words_based_on_phone_no(ARGV[0])
