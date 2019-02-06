@@ -1,0 +1,46 @@
+a.	Write the SQL Query to pull all customers
+select * from customers;
+
+b.	Write a SQL Query to pull all customers that have orders
+select * from customers where customers.id NOT IN (select * from orders);
+
+c. Wtite a SQL query that pull all customers that do not have orders(No duplicates)
+
+SELECT customers.name, COUNT(orders.id)
+FROM customers
+LEFT JOIN orders
+  WHERE customers.id=orders.customer_id AND  orders.id NOT NULL
+GROUP BY customers.name;
+
+d. If you had to create index on these tables which fields would you most likely index and why?
+
+By observing the given tables I will create index on customer_id  on orders table.Because in orders table customer_id will be duplicate. So that when 
+I am retrieving records from orders by sending customer_id as a filter retrieving speed would be faster.Always primary keys 
+by default having indexing technique.
+
+e.	Write a query that lists each customer name, email, and the number of order they have 
+	
+SELECT c1.name, o.totalOrders
+FROM customers c1
+LEFT JOIN
+(
+    SELECT customer_id, COUNT(customer_id) AS totalOrders
+    FROM orders o
+) o
+    ON c1.id = o.customer_id
+ORDER BY o.totalOrders DESC	
+	
+f.	Write query that pulls all customers with between 2 and 5 orders.
+
+
+SELECT c1.name, o.totalOrders
+FROM customers c1
+LEFT JOIN
+(
+    SELECT customer_id, COUNT(customer_id) AS totalOrders
+    FROM orders o where totalOrders BETWEEN 5 and 9
+) o 
+    ON c1.id = o.customer_id
+ORDER BY o.totalOrders DESC
+
+
