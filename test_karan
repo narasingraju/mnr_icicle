@@ -42,5 +42,141 @@ LEFT JOIN
 ) o 
     ON c1.id = o.customer_id
 ORDER BY o.totalOrders DESC
+#################################################################################################################
+p = nil
+name = ["Andrew Ryan", "b", "c"]
+name.each_with_index do |name, i|
+ names= i< 1 ? "First name" + name : "First name length" + p.length
+ p names
+end
+
+
+1. names array should not be greater than  3
+2. We can not get length on nil
+
+
+  
+
+@doc = Nokogiri::XML(File.open("books.xml"))
+  @doc.xpath("//Book").map do |row|
+    final_row = Hash[ row.attributes.map { |k, v| [k.to_sym, v.to_s] } ]
+  end
+
+  final_row.select{|row| row[:genre] == "Horror"}
+  final_row.select{|row| row[:genre] != "Drama"}
+  final_row.select{|row| row[:genre] == "Horror"}
+
+    @doc.xpath("/Book/price").map do |row|
+    final_row = Hash[ row.attributes.map { |k, v| [k.to_sym, v.to_s] } ]
+  end
+
+
+   arr =[]
+   @doc.xpath("//price").each do|price|
+     arr <<  price.parent.attr('name')  if price.content.gsub(/[^\d\.]/, '').to_f > 10.to_f
+   end
+   ##############################################################################################
+   def get_products
+	numbers = []
+	puts "How many numbers you want to get product?"
+	length = gets.to_i
+	puts "Please Enter Numbers of your choice"
+	  for i in 0..length - 1
+	   	numbers << gets.chomp.to_i
+	  end
+	product = numbers.reduce{|x, y| x * y }
+	puts "Product of Numbers: #{product}"
+end
+get_products
+
+
+def parse_fields(note_attributes)   
+  note_attributes.map do |attrib|
+    case attrib.name
+    when 'requested_ship_date'
+  {
+        requested_ship_date: try_format_datetime(attrib.value, '%Y-%m-%dT%H:%M:%SZ')
+  }
+ end
+end.compact.reduce({}, :merge)
+end
+
+# note_attributes contains array of objects
+# when it is checking conditions with switch case it returns array of hashes which is like 
+#[{requested_ship_date: '2019-02-06T00:00:00Z'}, {requested_ship_date: '2018-02-07T00:00:00Z'}, {requested_ship_date: '2019-01-08T00:00:00Z'}] 
+#After it returns array of object it's doing compact.redude({}, :merge) giving last element of the attribute which is {requested_ship_date: '2019-01-08T00:00:00Z'}
+# Because key is same for all the elements which is requested_ship_date.
+
+#def parse_fields(note_attributes)
+#date_time_val = note_attributes.select{|x| x == 'requested_ship_date'}.last.attrib.value
+#{requested_ship_date: try_format(date_time_val)}
+#end
+
+
+1. Given a Zip code (Postal Code) database containing 43,000 entries and the code below: 
+
+ 	def get_state_by_zipcode(zipcode)
+    	  raise ArgumentError.new('zipcode is nil') if zipcode.nil?
+	  # Get all locations from text file
+    	  locations = get_zipcode_locations()
+
+    	  location = locations.find { |l| l.zipcode == zipcode }
+	  location && location.state || nil
+ 	end
+
+a) How might you improve the performance?
+# I will apply indexing on zipcodes 
+# To work on the performance unable to know the implementation of get_zipcode_locations() method.
+
+b) Compare the performance gains, what makes your solution better?
+# If there is any eager loading we can optimize in get_zipcode_locations() function which means that we can N+1 query problem if exists.
+
+c) describe the test cases you would implement to ensure the method is properly tests
+
+# If location is empty undefined method for nil::nilclass exception will come
+# we should check that zipcode is integer or not
+# we should check zipcode length is 6 or not
+###########################################################################################################
+#Explain why the code below will cause problems when run across multiple threads, and rewrite it so that it is 
+#thread safe: (This is a code question, name the file threadsafe.rb)
+ 	MAX_MESSAGES = 100
+ 	messageCounter = 0
+
+ 	def process_message(msg)
+  	  if( msg.valid?  && message_counter < MAX_MESSAGES )
+    	    msg.file
+  	    message_counter += 1
+  	  end
+ 	end
+
+#Using the code above (not the threadsafe.rb code), describe the test cases you would implement to ensure the method is properly tests. 
+
+	
+message_counter += 1 would be problematic for multithreading because it translates to message_counter = message_counter + 1. 
+The problem is that this has to do two things: First it gets  value of message_counter and increment it, then store the result in message_counter.
+
+
+Diffrence between thread and process?	
+ Threads will, by default, share memory, but processes by default do not share memory.
+
+· A thread cannot exist by itself, a process must start a thread. A process can start multiple threads in other words “threads are not independent like processes”.
+
+· Threads will share file descriptors, but among processes more file descriptors are not shared.
+
+· Changes to the main thread (cancellation, priority change and so on) may affect the behavior of the other threads of the process; changes to the parent process do not affect the child processes.
+
+· Threads will share file system context, but processes don't share file system context.
+
+· Threads will share signal handling, but processes don't share signal handling.
+##############################################################################################################
+def unnecessary_censorship_sentence(input)
+	final = input.downcase.split(" ").map{|word| ["pear","orange", "happy"].include?(word) ? word.split("").map{|w| "*"}.join : word}.join(" ")
+    p final
+end
+
+unnecessary_censorship_sentence("happy journey with orange and take with pear")
+
+
+
 
 
